@@ -1,3 +1,5 @@
+import "server-only";
+
 import type {
   Credits,
   Genre,
@@ -8,15 +10,8 @@ import type {
   VideosResponse,
 } from "@/types/tmdb";
 
-const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL || "https://api.themoviedb.org/3";
-const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY || "";
-
-export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
-
-export function getImageUrl(path: string | null, size: string = "w500"): string {
-  if (!path) return "/placeholder-poster.jpg";
-  return `${IMAGE_BASE_URL}/${size}${path}`;
-}
+const BASE_URL = process.env.TMDB_BASE_URL || "https://api.themoviedb.org/3";
+const API_KEY = process.env.TMDB_API_KEY || "";
 
 async function fetchTmdb<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
   const url = new URL(`${BASE_URL}${endpoint}`);
