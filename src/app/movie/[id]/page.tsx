@@ -1,65 +1,66 @@
-"use client";
-
-import { use } from "react";
 import Image from "next/image";
-import { Bookmark, BookmarkCheck, Star, Clock, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Star, Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { getImageUrl } from "@/lib/tmdb";
-import { useWatchlistStore } from "@/store/watchlist";
 import {
-  useMovieDetail,
-  useMovieCredits,
-  useMovieVideos,
-  useSimilarMovies,
-} from "@/hooks/use-media-detail";
+  getMovieDetail,
+  getMovieCredits,
+  getMovieVideos,
+  getSimilarMovies,
+} from "@/lib/tmdb";
+import { getImageUrl } from "@/lib/utils";
+import { WatchlistButton } from "@/components/media/watchlist-button";
 import { MediaGrid } from "@/components/media/media-grid";
+import type { Metadata } from "next";
 import type { Movie } from "@/types/tmdb";
 
-export default function MovieDetailPage({
-  params,
-}: {
+interface Props {
   params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const movie = await getMovieDetail(parseInt(id));
+  return {
+    title: `${movie.title} - Cinema`,
+    description: movie.overview || `${movie.title} 상세 정보`,
+    openGraph: {
+      title: movie.title,
+      description: movie.overview || undefined,
+      images: movie.backdrop_path
+        ? [{ url: getImageUrl(movie.backdrop_path, "w1280") }]
+        : undefined,
+    },
+  };
+}
+
+export default async function MovieDetailPage({ params }: Props) {
+  const { id } = await params;
   const movieId = parseInt(id);
 
-  const { data: movie, isPending } = useMovieDetail(movieId);
-  const { data: credits } = useMovieCredits(movieId);
-  const { data: videos } = useMovieVideos(movieId);
-  const { data: similar } = useSimilarMovies(movieId);
+  const [movie, credits, videos, similar] = await Promise.all([
+    getMovieDetail(movieId),
+    getMovieCredits(movieId),
+    getMovieVideos(movieId),
+    getSimilarMovies(movieId),
+  ]);
 
-  const addItem = useWatchlistStore((s) => s.addItem);
-  const removeItem = useWatchlistStore((s) => s.removeItem);
-  const inWatchlist = useWatchlistStore((s) =>
-    movie ? s.items.some((w) => w.id === movie.id && w.media_type === "movie") : false
-  );
-
-  if (isPending) return <DetailSkeleton />;
-  if (!movie) return null;
   const trailer = videos?.results.find(
     (v) => v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser")
   );
   const director = credits?.crew.find((c) => c.job === "Director");
   const cast = credits?.cast.slice(0, 10) ?? [];
 
-  const handleWatchlistToggle = () => {
-    if (inWatchlist) {
-      removeItem(movie.id, "movie");
-    } else {
-      addItem({
-        id: movie.id,
-        media_type: "movie",
-        title: movie.title,
-        poster_path: movie.poster_path,
-        vote_average: movie.vote_average,
-        release_date: movie.release_date,
-        overview: movie.overview,
-        backdrop_path: movie.backdrop_path,
-      });
-    }
+  const watchlistItem = {
+    id: movie.id,
+    media_type: "movie" as const,
+    title: movie.title,
+    poster_path: movie.poster_path,
+    vote_average: movie.vote_average,
+    release_date: movie.release_date || "",
+    overview: movie.overview,
+    backdrop_path: movie.backdrop_path,
+    genre_ids: movie.genres?.map((g) => g.id) ?? movie.genre_ids,
   };
 
   return (
@@ -95,15 +96,20 @@ export default function MovieDetailPage({
           </div>
 
           <div className="flex-1 pt-2">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              {movie.genres?.map((g) => (
-                <Badge key={g.id} variant="secondary" className="bg-white/10 text-white border-0">
-                  {g.name}
-                </Badge>
-              ))}
-            </div>
+            {movie.genres && movie.genres.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                {movie.genres.map((g) => (
+                  <Badge key={g.id} variant="secondary" className="bg-white/10 text-white border-0">
+                    {g.name}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{movie.title}</h1>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-white">{movie.title}</h1>
+              <WatchlistButton item={watchlistItem} variant="icon" />
+            </div>
 
             {movie.tagline && (
               <p className="text-muted-foreground italic mb-4">&ldquo;{movie.tagline}&rdquo;</p>
@@ -135,40 +141,20 @@ export default function MovieDetailPage({
               {movie.overview || "줄거리 정보가 없습니다."}
             </p>
 
-            <div className="flex flex-wrap gap-3">
-              <Button
-                className={
-                  inWatchlist
-                    ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/50 hover:bg-yellow-500/30"
-                    : "bg-white text-black hover:bg-white/90"
-                }
-                onClick={handleWatchlistToggle}
-              >
-                {inWatchlist ? (
-                  <>
-                    <BookmarkCheck className="h-4 w-4 mr-2" /> 찜 해제
-                  </>
-                ) : (
-                  <>
-                    <Bookmark className="h-4 w-4 mr-2" /> 찜하기
-                  </>
-                )}
-              </Button>
-            </div>
-
             {director && (
-              <p className="text-sm text-muted-foreground mt-4">
-                <span className="text-white/60">감독:</span>{" "}
+              <p className="text-sm text-muted-foreground">
+                <span className="text-white/80">감독:</span>{" "}
                 <span className="text-white">{director.name}</span>
               </p>
             )}
+
           </div>
         </div>
 
         {trailer && (
           <div className="mt-10">
             <h2 className="text-xl font-bold text-white mb-4">예고편</h2>
-            <div className="relative w-full max-w-3xl aspect-video rounded-xl overflow-hidden">
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden">
               <iframe
                 src={`https://www.youtube.com/embed/${trailer.key}`}
                 title={trailer.name}
@@ -187,7 +173,7 @@ export default function MovieDetailPage({
                 <div key={actor.id} className="flex flex-col items-center text-center gap-2">
                   <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted border border-border/50">
                     <Image
-                      src={getImageUrl(actor.profile_path, "w185")}
+                      src={actor.profile_path ? getImageUrl(actor.profile_path, "w185") : "/people.svg"}
                       alt={actor.name}
                       fill
                       className="object-cover"
@@ -214,25 +200,6 @@ export default function MovieDetailPage({
             />
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-function DetailSkeleton() {
-  return (
-    <div className="pb-16">
-      <Skeleton className="w-full" style={{ height: "55vh", minHeight: "400px" }} />
-      <div className="container mx-auto max-w-7xl px-4 md:px-6 -mt-32 relative z-10">
-        <div className="flex gap-8">
-          <Skeleton className="w-44 md:w-56 aspect-[2/3] rounded-xl shrink-0" />
-          <div className="flex-1 pt-2 space-y-4">
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-24 w-full max-w-2xl" />
-          </div>
-        </div>
       </div>
     </div>
   );
