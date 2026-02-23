@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
@@ -28,12 +29,14 @@ export default function RootLayout({
   return (
     <html lang="ko" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <QueryProvider>
           <TooltipProvider>
-            <Header />
-            <main className="min-h-screen">{children}</main>
+            <Suspense>
+              <Header />
+            </Suspense>
+            <main className="flex-1">{children}</main>
           </TooltipProvider>
         </QueryProvider>
       </body>
