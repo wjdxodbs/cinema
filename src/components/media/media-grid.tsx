@@ -6,9 +6,10 @@ interface MediaGridProps {
   items: Media[];
   mediaType: MediaType;
   className?: string;
+  priorityCount?: number;
 }
 
-export function MediaGrid({ items, mediaType, className }: MediaGridProps) {
+export function MediaGrid({ items, mediaType, className, priorityCount = 5 }: MediaGridProps) {
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
@@ -24,14 +25,15 @@ export function MediaGrid({ items, mediaType, className }: MediaGridProps) {
         className
       )}
     >
-      {items.map((item) => (
+      {items.map((item, index) => (
         <MediaCard
-          key={`${mediaType}-${item.id}`}
+          key={`${item.media_type ?? mediaType}-${item.id}`}
           item={item}
           mediaType={
             (item.media_type as MediaType) ||
             mediaType
           }
+          priority={index < priorityCount}
         />
       ))}
     </div>
