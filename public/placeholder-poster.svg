@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="342" height="513" viewBox="0 0 342 513" fill="none">
+  <rect width="342" height="513" rx="4" fill="#18181b"/>
+  <rect x="1" y="1" width="340" height="511" rx="3" stroke="#27272a" stroke-width="2" fill="none"/>
+  <!-- Film strip icon -->
+  <g transform="translate(141, 206)">
+    <rect x="0" y="0" width="60" height="48" rx="6" fill="#3f3f46"/>
+    <rect x="4" y="4" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="4" y="14" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="4" y="24" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="4" y="34" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="48" y="4" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="48" y="14" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="48" y="24" width="8" height="6" rx="1" fill="#52525b"/>
+    <rect x="48" y="34" width="8" height="6" rx="1" fill="#52525b"/>
+    <circle cx="30" cy="24" r="10" fill="#52525b"/>
+    <circle cx="30" cy="24" r="4" fill="#3f3f46"/>
+  </g>
+  <text x="171" y="290" fill="#52525b" font-size="13" font-family="system-ui, sans-serif" text-anchor="middle" font-weight="500">포스터 없음</text>
+</svg>
