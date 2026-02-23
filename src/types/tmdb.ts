@@ -120,5 +120,6 @@ export interface WatchlistItem {
   release_date: string;
   overview: string;
   backdrop_path: string | null;
+  genre_ids?: number[];
   added_at: string;
 }
