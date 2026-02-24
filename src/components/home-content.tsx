@@ -24,7 +24,9 @@ export function HomeContent() {
       <div className="container mx-auto max-w-7xl px-4 md:px-6 mt-10">
         <Tabs defaultValue="movies">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">이번 주 트렌딩</h2>
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+              이번 주 트렌딩
+            </h2>
             <TabsList className="bg-muted/50">
               <TabsTrigger value="movies" className="text-sm">
                 영화

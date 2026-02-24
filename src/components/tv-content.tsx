@@ -19,13 +19,15 @@ export function TvContent() {
   const activeQuery = selectedGenreId === null ? popularQuery : genreQuery;
 
   const allShows = deduplicateById(
-    activeQuery.data?.pages.flatMap((page) => page.results as TvShow[]) ?? []
+    activeQuery.data?.pages.flatMap((page) => page.results as TvShow[]) ?? [],
   );
 
   return (
     <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
       <div className="flex flex-wrap items-center gap-3 mb-6">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">TV 프로그램</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+          TV 프로그램
+        </h1>
         <GenreFilter
           genres={genresData?.genres ?? []}
           selectedGenreId={selectedGenreId}
