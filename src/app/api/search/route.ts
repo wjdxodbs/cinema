@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { searchMulti } from "@/lib/tmdb";
 
+/** 영화+TV 통합 검색 API (?q=검색어&page=1) */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const query = searchParams.get("q") || "";
