@@ -4,9 +4,7 @@ TMDB API 기반 영화/TV 탐색 웹앱입니다.
 
 트렌딩 조회, 영화/TV 목록 무한 스크롤, 상세 페이지, 검색, 찜 목록 기능을 제공합니다.
 
-## 배포 URL
-
-- https://wjdxodbs-cinema.vercel.app/
+배포 URL: https://wjdxodbs-cinema.vercel.app/
 
 ## Quick Start
 
