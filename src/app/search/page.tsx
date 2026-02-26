@@ -24,7 +24,9 @@ function SearchContent() {
 
   useEffect(() => {
     if (debouncedInput.trim()) {
-      router.replace(`/search?q=${encodeURIComponent(debouncedInput.trim())}`, { scroll: false });
+      router.replace(`/search?q=${encodeURIComponent(debouncedInput.trim())}`, {
+        scroll: false,
+      });
     } else {
       router.replace("/search", { scroll: false });
     }
@@ -39,8 +41,7 @@ function SearchContent() {
       .filter((item) => {
         const m = item as Media;
         return (
-          (m.media_type === "movie" || m.media_type === "tv") &&
-          m.poster_path
+          (m.media_type === "movie" || m.media_type === "tv") && m.poster_path
         );
       }) ?? [];
   const seen = new Set<string>();
@@ -67,7 +68,7 @@ function SearchContent() {
       </div>
 
       {query.trim() && (
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
           &ldquo;{query}&rdquo; 검색 결과
         </h1>
       )}
@@ -85,10 +86,7 @@ function SearchContent() {
         </div>
       ) : (
         <>
-          <MediaGrid
-            items={results as Media[]}
-            mediaType="movie"
-          />
+          <MediaGrid items={results as Media[]} mediaType="movie" />
           <InfiniteScroll
             onLoadMore={fetchNextPage}
             hasNextPage={hasNextPage}

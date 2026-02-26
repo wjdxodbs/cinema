@@ -33,7 +33,9 @@ export default function WatchlistPage() {
   if (items.length === 0) {
     return (
       <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6">찜 목록</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
+          찜 목록
+        </h1>
         <div className="flex flex-col items-center justify-center py-24 text-muted-foreground">
           <BookmarkX className="h-20 w-20 mb-4 opacity-20" />
           <p className="text-xl mb-2">찜한 항목이 없습니다</p>
@@ -45,13 +47,15 @@ export default function WatchlistPage() {
   return (
     <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">찜 목록</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-white">찜 목록</h1>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground">{items.length}개</span>
+          <span className="text-sm text-muted-foreground">
+            {items.length}개
+          </span>
           <Button
             variant="ghost"
             size="sm"
-            className="text-muted-foreground hover:text-destructive gap-2"
+            className="text-muted-foreground hover:text-destructive"
             onClick={clearAll}
           >
             <Trash2 className="h-4 w-4" />
@@ -60,10 +64,7 @@ export default function WatchlistPage() {
         </div>
       </div>
 
-      <MediaGrid
-        items={mediaItems}
-        mediaType="movie"
-      />
+      <MediaGrid items={mediaItems} mediaType="movie" />
     </div>
   );
 }
