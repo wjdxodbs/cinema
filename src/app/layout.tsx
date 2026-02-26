@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { Header } from "@/components/layout/header";
 
 const geistSans = Geist({
@@ -27,17 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="dark">
+    <html lang="ko">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <QueryProvider>
-          <TooltipProvider>
-            <Suspense>
-              <Header />
-            </Suspense>
-            <main className="flex-1">{children}</main>
-          </TooltipProvider>
+          <Suspense>
+            <Header />
+          </Suspense>
+          <main className="flex-1">{children}</main>
         </QueryProvider>
       </body>
     </html>
