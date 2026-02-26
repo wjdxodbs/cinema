@@ -38,7 +38,11 @@ function GenreButton({
   );
 }
 
-export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFilterProps) {
+export function GenreFilter({
+  genres,
+  selectedGenreId,
+  onGenreChange,
+}: GenreFilterProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
@@ -46,12 +50,16 @@ export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFil
   const selectedLabel =
     selectedGenreId === null
       ? "전체"
-      : genres.find((g) => g.id === selectedGenreId)?.name ?? "전체";
+      : (genres.find((g) => g.id === selectedGenreId)?.name ?? "전체");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (ref.current && !ref.current.contains(target) && (!mobileRef.current || !mobileRef.current.contains(target))) {
+      if (
+        ref.current &&
+        !ref.current.contains(target) &&
+        (!mobileRef.current || !mobileRef.current.contains(target))
+      ) {
         setOpen(false);
       }
     };
@@ -62,7 +70,9 @@ export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFil
   useEffect(() => {
     if (open && window.innerWidth < 768) {
       document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = ""; };
+      return () => {
+        document.body.style.overflow = "";
+      };
     }
   }, [open]);
 
@@ -81,7 +91,10 @@ export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFil
         >
           <span>{selectedLabel}</span>
           <ChevronDown
-            className={cn("h-4 w-4 opacity-50 transition-transform", open && "rotate-180")}
+            className={cn(
+              "h-4 w-4 opacity-50 transition-transform",
+              open && "rotate-180",
+            )}
           />
         </Button>
 
@@ -91,7 +104,11 @@ export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFil
             role="listbox"
           >
             <div className="grid grid-cols-3 gap-1.5">
-              <GenreButton label="전체" selected={selectedGenreId === null} onClick={() => handleSelect(null)} />
+              <GenreButton
+                label="전체"
+                selected={selectedGenreId === null}
+                onClick={() => handleSelect(null)}
+              />
               {genres.map((genre) => (
                 <GenreButton
                   key={genre.id}
@@ -118,7 +135,10 @@ export function GenreFilter({ genres, selectedGenreId, onGenreChange }: GenreFil
           >
             <X className="h-6 w-6" />
           </button>
-          <nav className="flex flex-col items-center gap-4 py-16" role="listbox">
+          <nav
+            className="flex flex-col items-center gap-4 py-16"
+            role="listbox"
+          >
             <GenreButton
               label="전체"
               selected={selectedGenreId === null}
