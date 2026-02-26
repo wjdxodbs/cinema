@@ -163,6 +163,22 @@ export function HeroBanner({ items }: HeroBannerProps) {
             {/* 그라데이션 - 모든 슬라이드에 동일 적용 */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent pointer-events-none" />
 
+            {/* 우측 상단 타입 배지 */}
+            <div
+              className="absolute top-0 left-0 z-3 pointer-events-none"
+              style={{
+                opacity: isCurrent ? 1 : 0,
+                transition: `opacity ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+              }}
+            >
+              <Badge
+                variant="default"
+                className="h-9 w-20 justify-center rounded-none rounded-br-xl border-0 px-4 text-xs font-bold md:px-5 md:h-10 md:w-23 md:text-sm"
+              >
+                {mediaType === "movie" ? "영화" : "TV"}
+              </Badge>
+            </div>
+
             {/* 콘텐츠 */}
             <div
               className="absolute inset-0 flex items-end md:items-center pointer-events-none"
@@ -176,17 +192,13 @@ export function HeroBanner({ items }: HeroBannerProps) {
                 style={{ paddingLeft: `${CONTENT_PAD}%` }}
               >
                 <div className="max-w-xl space-y-2 md:space-y-3 pointer-events-auto">
-                  <Badge className="bg-red-700 text-white border-0 text-xs font-bold">
-                    {mediaType === "movie" ? "영화" : "TV"}
-                  </Badge>
-
-                  <h1 className="text-xl sm:text-2xl md:text-5xl font-bold text-white leading-tight">
+                  <h1 className="text-2xl md:text-5xl font-bold text-white leading-tight">
                     {title}
                   </h1>
 
-                  <div className="flex items-center gap-1.5 sm:gap-2.5 text-xs sm:text-sm md:text-lg">
-                    <div className="flex items-center gap-1 sm:gap-1.5">
-                      <Star className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-4.5 md:w-4.5 text-yellow-400 fill-yellow-400" />
+                  <div className="flex items-center gap-1.5 md:gap-2.5 text-sm md:text-lg">
+                    <div className="flex items-center gap-1.5">
+                      <Star className="h-4 w-4 md:h-4.5 md:w-4.5 text-yellow-400 fill-yellow-400" />
                       <span className="text-white/80 font-medium">
                         {item.vote_average.toFixed(1)}
                       </span>
@@ -207,7 +219,7 @@ export function HeroBanner({ items }: HeroBannerProps) {
                   >
                     <Button
                       size="lg"
-                      className="bg-white text-black hover:bg-white/90 font-bold cursor-pointer text-sm sm:text-base md:text-xl px-6 sm:px-10 md:px-16 py-3 sm:py-5 md:py-7 rounded-lg md:rounded-xl"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold cursor-pointer text-base md:text-xl px-8 md:px-16 py-5 md:py-7 rounded-lg md:rounded-xl"
                     >
                       자세히 보기
                     </Button>
