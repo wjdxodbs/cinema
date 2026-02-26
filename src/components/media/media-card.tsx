@@ -30,7 +30,7 @@ export function MediaCard({ item, mediaType, className, priority }: MediaCardPro
     <Link href={`/${mediaType}/${item.id}`} className="block">
       <div
         className={cn(
-          "group relative overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-300 hover:scale-105 hover:border-white/20 hover:shadow-2xl hover:shadow-black/50",
+          "group relative overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:shadow-2xl hover:shadow-black/50",
           className
         )}
       >
@@ -56,11 +56,10 @@ export function MediaCard({ item, mediaType, className, priority }: MediaCardPro
               backdrop_path: item.backdrop_path,
               genre_ids: item.genre_ids,
             }}
-            variant="icon"
             className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#16213E]/85 via-[#16213E]/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
             <h3 className="font-semibold text-white line-clamp-2 text-sm leading-snug mb-1">
               {title}
             </h3>

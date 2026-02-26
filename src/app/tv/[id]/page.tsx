@@ -46,7 +46,8 @@ export default async function TvDetailPage({ params }: Props) {
   ]);
 
   const trailer = videos?.results.find(
-    (v) => v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser")
+    (v) =>
+      v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser"),
   );
   const cast = credits?.cast.slice(0, 10) ?? [];
 
@@ -98,7 +99,7 @@ export default async function TvDetailPage({ params }: Props) {
             {show.genres && show.genres.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 {show.genres.map((g) => (
-                  <Badge key={g.id} variant="secondary" className="bg-white/10 text-white border-0">
+                  <Badge key={g.id} variant="secondary">
                     {g.name}
                   </Badge>
                 ))}
@@ -106,18 +107,24 @@ export default async function TvDetailPage({ params }: Props) {
             )}
 
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-white">{show.name}</h1>
-              <WatchlistButton item={watchlistItem} variant="icon" />
+              <h1 className="text-3xl md:text-4xl font-bold text-white">
+                {show.name}
+              </h1>
+              <WatchlistButton item={watchlistItem} />
             </div>
 
             {show.tagline && (
-              <p className="text-muted-foreground italic mb-4">&ldquo;{show.tagline}&rdquo;</p>
+              <p className="text-muted-foreground italic mb-4">
+                &ldquo;{show.tagline}&rdquo;
+              </p>
             )}
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-5">
               <div className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                <span className="text-white font-semibold">{show.vote_average.toFixed(1)}</span>
+                <span className="text-white font-semibold">
+                  {show.vote_average.toFixed(1)}
+                </span>
                 <span>({show.vote_count.toLocaleString()}명)</span>
               </div>
               {show.first_air_date && (
@@ -137,10 +144,10 @@ export default async function TvDetailPage({ params }: Props) {
               {show.status && (
                 <Badge
                   variant="outline"
-                  className={`border-0 text-xs ${
+                  className={`text-xs ${
                     show.in_production
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-muted/70 text-muted-foreground"
+                      ? "bg-green-500/20 border-green-500/20 text-green-400"
+                      : "bg-destructive/20 border-destructive/20 text-destructive"
                   }`}
                 >
                   {show.in_production ? "방영 중" : "종영"}
@@ -151,7 +158,6 @@ export default async function TvDetailPage({ params }: Props) {
             <p className="text-white/80 leading-relaxed mb-6 max-w-2xl">
               {show.overview || "줄거리 정보가 없습니다."}
             </p>
-
           </div>
         </div>
 
@@ -174,10 +180,17 @@ export default async function TvDetailPage({ params }: Props) {
             <h2 className="text-xl font-bold text-white mb-4">출연진</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {cast.map((actor) => (
-                <div key={actor.id} className="flex flex-col items-center text-center gap-2">
+                <div
+                  key={actor.id}
+                  className="flex flex-col items-center text-center gap-2"
+                >
                   <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted border border-border/50">
                     <Image
-                      src={actor.profile_path ? getImageUrl(actor.profile_path, "w185") : "/people.svg"}
+                      src={
+                        actor.profile_path
+                          ? getImageUrl(actor.profile_path, "w185")
+                          : "/people.svg"
+                      }
                       alt={actor.name}
                       fill
                       className="object-cover"
@@ -185,8 +198,12 @@ export default async function TvDetailPage({ params }: Props) {
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-white line-clamp-1">{actor.name}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-1">{actor.character}</p>
+                    <p className="text-sm font-medium text-white line-clamp-1">
+                      {actor.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground line-clamp-1">
+                      {actor.character}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -197,7 +214,9 @@ export default async function TvDetailPage({ params }: Props) {
         {similar?.results && similar.results.length > 0 && (
           <div className="mt-10">
             <Separator className="bg-border/30 mb-8" />
-            <h2 className="text-xl font-bold text-white mb-4">비슷한 TV 프로그램</h2>
+            <h2 className="text-xl font-bold text-white mb-4">
+              비슷한 TV 프로그램
+            </h2>
             <MediaGrid
               items={similar.results.slice(0, 10) as TvShow[]}
               mediaType="tv"

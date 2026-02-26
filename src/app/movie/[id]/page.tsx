@@ -46,7 +46,8 @@ export default async function MovieDetailPage({ params }: Props) {
   ]);
 
   const trailer = videos?.results.find(
-    (v) => v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser")
+    (v) =>
+      v.site === "YouTube" && (v.type === "Trailer" || v.type === "Teaser"),
   );
   const director = credits?.crew.find((c) => c.job === "Director");
   const cast = credits?.cast.slice(0, 10) ?? [];
@@ -70,7 +71,10 @@ export default async function MovieDetailPage({ params }: Props) {
         style={{ height: "55vh", minHeight: "400px" }}
       >
         <Image
-          src={getImageUrl(movie.backdrop_path || movie.poster_path, "original")}
+          src={getImageUrl(
+            movie.backdrop_path || movie.poster_path,
+            "original",
+          )}
           alt={movie.title}
           fill
           className="object-cover"
@@ -99,7 +103,7 @@ export default async function MovieDetailPage({ params }: Props) {
             {movie.genres && movie.genres.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 {movie.genres.map((g) => (
-                  <Badge key={g.id} variant="secondary" className="bg-white/10 text-white border-0">
+                  <Badge key={g.id} variant="secondary">
                     {g.name}
                   </Badge>
                 ))}
@@ -107,18 +111,24 @@ export default async function MovieDetailPage({ params }: Props) {
             )}
 
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-white">{movie.title}</h1>
-              <WatchlistButton item={watchlistItem} variant="icon" />
+              <h1 className="text-3xl md:text-4xl font-bold text-white">
+                {movie.title}
+              </h1>
+              <WatchlistButton item={watchlistItem} />
             </div>
 
             {movie.tagline && (
-              <p className="text-muted-foreground italic mb-4">&ldquo;{movie.tagline}&rdquo;</p>
+              <p className="text-muted-foreground italic mb-4">
+                &ldquo;{movie.tagline}&rdquo;
+              </p>
             )}
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-5">
               <div className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                <span className="text-white font-semibold">{movie.vote_average.toFixed(1)}</span>
+                <span className="text-white font-semibold">
+                  {movie.vote_average.toFixed(1)}
+                </span>
                 <span>({movie.vote_count.toLocaleString()}명)</span>
               </div>
               {movie.release_date && (
@@ -147,7 +157,6 @@ export default async function MovieDetailPage({ params }: Props) {
                 <span className="text-white">{director.name}</span>
               </p>
             )}
-
           </div>
         </div>
 
@@ -170,10 +179,17 @@ export default async function MovieDetailPage({ params }: Props) {
             <h2 className="text-xl font-bold text-white mb-4">출연진</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {cast.map((actor) => (
-                <div key={actor.id} className="flex flex-col items-center text-center gap-2">
+                <div
+                  key={actor.id}
+                  className="flex flex-col items-center text-center gap-2"
+                >
                   <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted border border-border/50">
                     <Image
-                      src={actor.profile_path ? getImageUrl(actor.profile_path, "w185") : "/people.svg"}
+                      src={
+                        actor.profile_path
+                          ? getImageUrl(actor.profile_path, "w185")
+                          : "/people.svg"
+                      }
                       alt={actor.name}
                       fill
                       className="object-cover"
@@ -181,8 +197,12 @@ export default async function MovieDetailPage({ params }: Props) {
                     />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-white line-clamp-1">{actor.name}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-1">{actor.character}</p>
+                    <p className="text-sm font-medium text-white line-clamp-1">
+                      {actor.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground line-clamp-1">
+                      {actor.character}
+                    </p>
                   </div>
                 </div>
               ))}
