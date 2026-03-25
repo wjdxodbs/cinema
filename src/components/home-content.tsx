@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Movie, TvShow } from "@/types/tmdb";
 
 export function HomeContent() {
-  const trendingAll = useTrending("all", "week");
+  const trendingAll = useTrending("all", "day");
   const trendingMovies = useTrending("movie", "week");
   const trendingTv = useTrending("tv", "week");
 

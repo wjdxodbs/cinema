@@ -7,8 +7,8 @@ export default async function Home() {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: ["trending", "all", "week"],
-      queryFn: () => getTrending("all", "week"),
+      queryKey: ["trending", "all", "day"],
+      queryFn: () => getTrending("all", "day"),
     }),
     queryClient.prefetchQuery({
       queryKey: ["trending", "movie", "week"],
