@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Black_Han_Sans, Gothic_A1 } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { Header } from "@/components/layout/header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const blackHanSans = Black_Han_Sans({
+  variable: "--font-display",
+  subsets: ["korean", "latin"],
+  weight: "400",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const gothicA1 = Gothic_A1({
+  variable: "--font-sans",
+  subsets: ["korean", "latin"],
+  weight: ["300", "400", "500", "700", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
+        className={`${blackHanSans.variable} ${gothicA1.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <QueryProvider>
           <Suspense>
