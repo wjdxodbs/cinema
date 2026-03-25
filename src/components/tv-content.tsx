@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { usePopularTv, useTvByGenre, useTvGenres } from "@/hooks/use-tv";
 import { MediaGrid } from "@/components/media/media-grid";
 import { MediaGridSkeleton } from "@/components/skeletons/media-card-skeleton";
@@ -10,8 +10,22 @@ import { deduplicateById } from "@/lib/utils";
 import type { TvShow } from "@/types/tmdb";
 
 export function TvContent() {
-  const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const genreParam = searchParams.get("genre");
+  const selectedGenreId = genreParam ? parseInt(genreParam) : null;
+
   const { data: genresData } = useTvGenres();
+
+  function setSelectedGenreId(id: number | null) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (id === null) {
+      params.delete("genre");
+    } else {
+      params.set("genre", String(id));
+    }
+    router.replace(`/tv?${params.toString()}`, { scroll: false });
+  }
 
   const popularQuery = usePopularTv();
   const genreQuery = useTvByGenre(selectedGenreId);

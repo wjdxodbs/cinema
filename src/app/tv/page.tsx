@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getPopularTv, getTvGenres } from "@/lib/tmdb";
 import { TvContent } from "@/components/tv-content";
+import { MediaGridSkeleton } from "@/components/skeletons/media-card-skeleton";
 
 export default async function TvPage() {
   const queryClient = new QueryClient();
@@ -19,7 +21,9 @@ export default async function TvPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TvContent />
+      <Suspense fallback={<MediaGridSkeleton />}>
+        <TvContent />
+      </Suspense>
     </HydrationBoundary>
   );
 }

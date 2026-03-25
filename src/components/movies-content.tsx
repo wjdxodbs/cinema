@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   useMoviesByGenre,
   useMovieGenres,
@@ -14,8 +14,22 @@ import { deduplicateById } from "@/lib/utils";
 import type { Movie } from "@/types/tmdb";
 
 export function MoviesContent() {
-  const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const genreParam = searchParams.get("genre");
+  const selectedGenreId = genreParam ? parseInt(genreParam) : null;
+
   const { data: genresData } = useMovieGenres();
+
+  function setSelectedGenreId(id: number | null) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (id === null) {
+      params.delete("genre");
+    } else {
+      params.set("genre", String(id));
+    }
+    router.replace(`/movies?${params.toString()}`, { scroll: false });
+  }
 
   const popularQuery = usePopularMovies();
   const genreQuery = useMoviesByGenre(selectedGenreId);
