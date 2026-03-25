@@ -25,7 +25,7 @@ export function TvContent() {
   return (
     <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
       <div className="flex flex-wrap items-center gap-3 mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">TV</h1>
+        <h1 className="font-display text-2xl md:text-3xl text-white">TV</h1>
         <GenreFilter
           genres={genresData?.genres ?? []}
           selectedGenreId={selectedGenreId}

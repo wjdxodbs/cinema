@@ -111,7 +111,7 @@ export default async function MovieDetailPage({ params }: Props) {
             )}
 
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-white">
+              <h1 className="font-display text-3xl md:text-4xl text-white">
                 {movie.title}
               </h1>
               <WatchlistButton item={watchlistItem} />
@@ -162,7 +162,7 @@ export default async function MovieDetailPage({ params }: Props) {
 
         {trailer && (
           <div className="mt-10">
-            <h2 className="text-xl font-bold text-white mb-4">예고편</h2>
+            <h2 className="font-display text-xl text-white mb-4">예고편</h2>
             <div className="relative w-full aspect-video rounded-xl overflow-hidden">
               <iframe
                 src={`https://www.youtube.com/embed/${trailer.key}`}
@@ -176,14 +176,14 @@ export default async function MovieDetailPage({ params }: Props) {
 
         {cast.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-xl font-bold text-white mb-4">출연진</h2>
+            <h2 className="font-display text-xl text-white mb-4">출연진</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {cast.map((actor) => (
                 <div
                   key={actor.id}
                   className="flex flex-col items-center text-center gap-2"
                 >
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden bg-muted border border-border/50">
+                  <div className="relative w-20 h-20 rounded-full overflow-hidden bg-muted border border-border/50">
                     <Image
                       src={
                         actor.profile_path
@@ -193,7 +193,7 @@ export default async function MovieDetailPage({ params }: Props) {
                       alt={actor.name}
                       fill
                       className="object-cover"
-                      sizes="64px"
+                      sizes="80px"
                     />
                   </div>
                   <div>
@@ -213,7 +213,7 @@ export default async function MovieDetailPage({ params }: Props) {
         {similar?.results && similar.results.length > 0 && (
           <div className="mt-10">
             <Separator className="bg-border/30 mb-8" />
-            <h2 className="text-xl font-bold text-white mb-4">비슷한 영화</h2>
+            <h2 className="font-display text-xl text-white mb-4">비슷한 영화</h2>
             <MediaGrid
               items={similar.results.slice(0, 10) as Movie[]}
               mediaType="movie"

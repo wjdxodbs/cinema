@@ -68,7 +68,7 @@ function SearchContent() {
       </div>
 
       {query.trim() && (
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
+        <h1 className="font-display text-2xl md:text-3xl text-white mb-6">
           &ldquo;{query}&rdquo; 검색 결과
         </h1>
       )}

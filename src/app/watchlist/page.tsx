@@ -32,7 +32,7 @@ export default function WatchlistPage() {
   if (!_hasHydrated) {
     return (
       <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">찜 목록</h1>
+        <h1 className="font-display text-2xl md:text-3xl text-white mb-6">찜 목록</h1>
         <MediaGridSkeleton />
       </div>
     );
@@ -43,7 +43,7 @@ export default function WatchlistPage() {
   if (items.length === 0) {
     return (
       <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
+        <h1 className="font-display text-2xl md:text-3xl text-white mb-6">
           찜 목록
         </h1>
         <div className="flex flex-col items-center justify-center py-24 text-muted-foreground">
@@ -57,7 +57,7 @@ export default function WatchlistPage() {
   return (
     <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-white">찜 목록</h1>
+        <h1 className="font-display text-2xl md:text-3xl text-white">찜 목록</h1>
         <div className="flex items-center gap-3">
           <span className="text-sm text-muted-foreground">
             {items.length}개
