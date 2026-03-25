@@ -4,6 +4,7 @@ import type { MediaType, WatchlistItem } from "@/types/tmdb";
 
 interface WatchlistState {
   items: WatchlistItem[];
+  _hasHydrated: boolean;
   addItem: (item: Omit<WatchlistItem, "added_at">) => void;
   removeItem: (id: number, mediaType: MediaType) => void;
   clearAll: () => void;
@@ -12,6 +13,7 @@ interface WatchlistState {
 export const useWatchlistStore = create<WatchlistState>()(
   persist(
     (set, get) => ({
+      _hasHydrated: false,
       items: [],
 
       addItem: (item) => {
@@ -40,6 +42,9 @@ export const useWatchlistStore = create<WatchlistState>()(
     }),
     {
       name: "cinema-watchlist",
+      onRehydrateStorage: () => () => {
+        useWatchlistStore.setState({ _hasHydrated: true });
+      },
     }
   )
 );

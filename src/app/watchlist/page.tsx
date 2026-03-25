@@ -3,6 +3,7 @@
 import { BookmarkX, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MediaGrid } from "@/components/media/media-grid";
+import { MediaGridSkeleton } from "@/components/skeletons/media-card-skeleton";
 import { useWatchlistStore } from "@/store/watchlist";
 import type { Media, WatchlistItem } from "@/types/tmdb";
 
@@ -26,7 +27,16 @@ function toMedia(item: WatchlistItem): Media {
 }
 
 export default function WatchlistPage() {
-  const { items, clearAll } = useWatchlistStore();
+  const { items, clearAll, _hasHydrated } = useWatchlistStore();
+
+  if (!_hasHydrated) {
+    return (
+      <div className="container mx-auto max-w-7xl px-4 md:px-6 py-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">찜 목록</h1>
+        <MediaGridSkeleton />
+      </div>
+    );
+  }
 
   const mediaItems = items.map(toMedia);
 
