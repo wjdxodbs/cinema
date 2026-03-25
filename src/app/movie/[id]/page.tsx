@@ -7,10 +7,12 @@ import {
   getMovieCredits,
   getMovieVideos,
   getSimilarMovies,
+  getWatchProviders,
 } from "@/lib/tmdb";
 import { getImageUrl } from "@/lib/utils";
 import { WatchlistButton } from "@/components/media/watchlist-button";
 import { MediaGrid } from "@/components/media/media-grid";
+import { WatchProviders } from "@/components/media/watch-providers";
 import type { Metadata } from "next";
 import type { Movie } from "@/types/tmdb";
 
@@ -38,11 +40,12 @@ export default async function MovieDetailPage({ params }: Props) {
   const { id } = await params;
   const movieId = parseInt(id);
 
-  const [movie, credits, videos, similar] = await Promise.all([
+  const [movie, credits, videos, similar, watchProviders] = await Promise.all([
     getMovieDetail(movieId),
     getMovieCredits(movieId),
     getMovieVideos(movieId),
     getSimilarMovies(movieId),
+    getWatchProviders("movie", movieId),
   ]);
 
   const trailer = videos?.results.find(
@@ -160,6 +163,10 @@ export default async function MovieDetailPage({ params }: Props) {
           </div>
         </div>
 
+        {watchProviders?.results?.KR && (
+          <WatchProviders providers={watchProviders.results.KR} />
+        )}
+
         {trailer && (
           <div className="mt-10">
             <h2 className="font-display text-xl text-white mb-4">예고편</h2>
@@ -215,7 +222,7 @@ export default async function MovieDetailPage({ params }: Props) {
             <Separator className="bg-border/30 mb-8" />
             <h2 className="font-display text-xl text-white mb-4">비슷한 영화</h2>
             <MediaGrid
-              items={similar.results.slice(0, 10) as Movie[]}
+              items={similar.results.filter((m) => m.vote_count >= 300) as Movie[]}
               mediaType="movie"
             />
           </div>

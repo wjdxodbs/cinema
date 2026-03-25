@@ -125,6 +125,29 @@ export interface VideosResponse {
 /** 트렌딩 API 응답 타입 */
 export type TrendingResponse = PaginatedResponse<Media>;
 
+/** OTT 제공자 정보 */
+export interface WatchProvider {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string;
+  display_priority: number;
+}
+
+/** 특정 지역의 OTT 제공 정보 */
+export interface WatchProviderRegion {
+  link: string;
+  flatrate?: WatchProvider[];
+}
+
+/** OTT 제공 정보 API 응답 */
+export interface WatchProvidersResponse {
+  id: number;
+  results: {
+    KR?: WatchProviderRegion;
+    [key: string]: WatchProviderRegion | undefined;
+  };
+}
+
 /** 찜 목록에 저장되는 아이템 타입 */
 export interface WatchlistItem {
   id: number;

@@ -7,10 +7,12 @@ import {
   getTvCredits,
   getTvVideos,
   getSimilarTv,
+  getWatchProviders,
 } from "@/lib/tmdb";
 import { getImageUrl } from "@/lib/utils";
 import { WatchlistButton } from "@/components/media/watchlist-button";
 import { MediaGrid } from "@/components/media/media-grid";
+import { WatchProviders } from "@/components/media/watch-providers";
 import type { Metadata } from "next";
 import type { TvShow } from "@/types/tmdb";
 
@@ -38,11 +40,12 @@ export default async function TvDetailPage({ params }: Props) {
   const { id } = await params;
   const tvId = parseInt(id);
 
-  const [show, credits, videos, similar] = await Promise.all([
+  const [show, credits, videos, similar, watchProviders] = await Promise.all([
     getTvDetail(tvId),
     getTvCredits(tvId),
     getTvVideos(tvId),
     getSimilarTv(tvId),
+    getWatchProviders("tv", tvId),
   ]);
 
   const trailer = videos?.results.find(
@@ -161,6 +164,10 @@ export default async function TvDetailPage({ params }: Props) {
           </div>
         </div>
 
+        {watchProviders?.results?.KR && (
+          <WatchProviders providers={watchProviders.results.KR} />
+        )}
+
         {trailer && (
           <div className="mt-10">
             <h2 className="font-display text-xl text-white mb-4">예고편</h2>
@@ -218,7 +225,7 @@ export default async function TvDetailPage({ params }: Props) {
               비슷한 TV 프로그램
             </h2>
             <MediaGrid
-              items={similar.results.slice(0, 10) as TvShow[]}
+              items={similar.results.filter((s) => s.vote_count >= 300) as TvShow[]}
               mediaType="tv"
             />
           </div>

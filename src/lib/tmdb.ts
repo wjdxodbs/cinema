@@ -8,6 +8,7 @@ import type {
   TrendingResponse,
   TvShow,
   VideosResponse,
+  WatchProvidersResponse,
 } from "@/types/tmdb";
 
 const BASE_URL = process.env.TMDB_BASE_URL || "https://api.themoviedb.org/3";
@@ -50,14 +51,18 @@ export async function getTrending(
   });
 }
 
-/** 인기 영화 목록 조회 (페이지네이션) */
+/** 인기 영화 목록 조회 (인기순, 투표 수 200 이상) */
 export async function getPopularMovies(
   page: number = 1,
 ): Promise<PaginatedResponse<Movie>> {
-  return fetchTmdb("/movie/popular", { page: String(page) });
+  return fetchTmdb("/discover/movie", {
+    page: String(page),
+    sort_by: "popularity.desc",
+    "vote_count.gte": "300",
+  });
 }
 
-/** 특정 장르의 영화 목록 조회 (인기순 정렬) */
+/** 특정 장르의 영화 목록 조회 (인기순, 투표 수 200 이상) */
 export async function getMoviesByGenre(
   genreId: number,
   page: number = 1,
@@ -66,6 +71,7 @@ export async function getMoviesByGenre(
     with_genres: String(genreId),
     page: String(page),
     sort_by: "popularity.desc",
+    "vote_count.gte": "300",
   });
 }
 
@@ -92,14 +98,18 @@ export async function getSimilarMovies(
   return fetchTmdb(`/movie/${id}/similar`, { page: String(page) });
 }
 
-/** 인기 TV 프로그램 목록 조회 (페이지네이션) */
+/** 인기 TV 프로그램 목록 조회 (인기순, 투표 수 200 이상) */
 export async function getPopularTv(
   page: number = 1,
 ): Promise<PaginatedResponse<TvShow>> {
-  return fetchTmdb("/tv/popular", { page: String(page) });
+  return fetchTmdb("/discover/tv", {
+    page: String(page),
+    sort_by: "popularity.desc",
+    "vote_count.gte": "300",
+  });
 }
 
-/** 특정 장르의 TV 프로그램 목록 조회 (인기순 정렬) */
+/** 특정 장르의 TV 프로그램 목록 조회 (인기순, 투표 수 200 이상) */
 export async function getTvByGenre(
   genreId: number,
   page: number = 1,
@@ -108,6 +118,7 @@ export async function getTvByGenre(
     with_genres: String(genreId),
     page: String(page),
     sort_by: "popularity.desc",
+    "vote_count.gte": "300",
   });
 }
 
@@ -150,4 +161,12 @@ export async function getMovieGenres(): Promise<{ genres: Genre[] }> {
 /** TV 프로그램 장르 목록 조회 */
 export async function getTvGenres(): Promise<{ genres: Genre[] }> {
   return fetchTmdb("/genre/tv/list");
+}
+
+/** 영화 또는 TV의 OTT 제공 정보 조회 (한국 기준) */
+export async function getWatchProviders(
+  mediaType: "movie" | "tv",
+  id: number,
+): Promise<WatchProvidersResponse> {
+  return fetchTmdb(`/${mediaType}/${id}/watch/providers`);
 }
