@@ -14,9 +14,10 @@ interface MediaCardProps {
   mediaType: MediaType;
   className?: string;
   priority?: boolean;
+  index?: number;
 }
 
-export function MediaCard({ item, mediaType, className, priority }: MediaCardProps) {
+export function MediaCard({ item, mediaType, className, priority, index = 99 }: MediaCardProps) {
   const genreMap = useGenreMap("all");
   const title = item.title || item.name || "Unknown";
   const releaseDate = item.release_date || item.first_air_date || "";
@@ -26,6 +27,8 @@ export function MediaCard({ item, mediaType, className, priority }: MediaCardPro
       item.genre_ids?.map((id) => genreMap[id]).filter(Boolean)) as string[] | undefined;
   const genreText = genreNames?.length ? genreNames.join(" • ") : null;
 
+  const shouldAnimate = index < 10;
+
   return (
     <Link href={`/${mediaType}/${item.id}`} className="block">
       <div
@@ -33,6 +36,14 @@ export function MediaCard({ item, mediaType, className, priority }: MediaCardPro
           "group relative overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:shadow-2xl hover:shadow-black/50",
           className
         )}
+        style={
+          shouldAnimate
+            ? {
+                animation: "card-enter 0.4s ease both",
+                animationDelay: `${index * 50}ms`,
+              }
+            : undefined
+        }
       >
         <div className="relative aspect-[2/3] overflow-hidden">
           <Image
@@ -59,7 +70,7 @@ export function MediaCard({ item, mediaType, className, priority }: MediaCardPro
             className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#16213E]/85 via-[#16213E]/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
             <h3 className="font-semibold text-white line-clamp-2 text-sm leading-snug mb-1">
               {title}
             </h3>

@@ -34,6 +34,7 @@ export function MediaGrid({ items, mediaType, className, priorityCount = 5 }: Me
             mediaType
           }
           priority={index < priorityCount}
+          index={index}
         />
       ))}
     </div>

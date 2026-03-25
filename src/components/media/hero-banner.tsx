@@ -122,7 +122,7 @@ export function HeroBanner({ items }: HeroBannerProps) {
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-black touch-pan-y"
+      className="relative w-full overflow-hidden touch-pan-y"
       style={{ height: "70vh", minHeight: "500px" }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -180,23 +180,31 @@ export function HeroBanner({ items }: HeroBannerProps) {
             </div>
 
             {/* 콘텐츠 */}
-            <div
-              className="absolute inset-0 flex items-end md:items-center pointer-events-none"
-              style={{
-                opacity: isCurrent ? 1 : 0,
-                transition: `opacity ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-              }}
-            >
+            <div className="absolute inset-0 flex items-end md:items-center pointer-events-none">
               <div
                 className="w-full pb-8 md:pb-0"
                 style={{ paddingLeft: `${CONTENT_PAD}%` }}
               >
                 <div className="max-w-xl space-y-2 md:space-y-3 pointer-events-auto">
-                  <h1 className="text-2xl md:text-5xl font-bold text-white leading-tight">
+                  <h1
+                    className="font-display text-2xl md:text-5xl text-white leading-tight"
+                    style={{
+                      opacity: isCurrent ? 1 : 0,
+                      transform: isCurrent ? "translateY(0)" : "translateY(16px)",
+                      transition: `opacity 0.4s ease ${isCurrent ? "0ms" : "0ms"}, transform 0.4s ease ${isCurrent ? "0ms" : "0ms"}`,
+                    }}
+                  >
                     {title}
                   </h1>
 
-                  <div className="flex items-center gap-1.5 md:gap-2.5 text-sm md:text-lg">
+                  <div
+                    className="flex items-center gap-1.5 md:gap-2.5 text-sm md:text-lg"
+                    style={{
+                      opacity: isCurrent ? 1 : 0,
+                      transform: isCurrent ? "translateY(0)" : "translateY(16px)",
+                      transition: `opacity 0.4s ease ${isCurrent ? "80ms" : "0ms"}, transform 0.4s ease ${isCurrent ? "80ms" : "0ms"}`,
+                    }}
+                  >
                     <div className="flex items-center gap-1.5">
                       <Star className="h-4 w-4 md:h-4.5 md:w-4.5 text-yellow-400 fill-yellow-400" />
                       <span className="text-white/80 font-medium">
@@ -216,6 +224,11 @@ export function HeroBanner({ items }: HeroBannerProps) {
                   <Link
                     href={`/${mediaType}/${item.id}`}
                     className="pt-2 md:pt-4 inline-block"
+                    style={{
+                      opacity: isCurrent ? 1 : 0,
+                      transform: isCurrent ? "translateY(0)" : "translateY(16px)",
+                      transition: `opacity 0.4s ease ${isCurrent ? "160ms" : "0ms"}, transform 0.4s ease ${isCurrent ? "160ms" : "0ms"}`,
+                    }}
                   >
                     <Button
                       size="lg"
