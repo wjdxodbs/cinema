@@ -7,14 +7,14 @@ import { Header } from "@/components/layout/header";
 
 const blackHanSans = Black_Han_Sans({
   variable: "--font-display",
-  subsets: ["korean", "latin"],
+  preload: false,
   weight: "400",
   display: "swap",
 });
 
 const gothicA1 = Gothic_A1({
   variable: "--font-sans",
-  subsets: ["korean", "latin"],
+  preload: false,
   weight: ["300", "400", "500", "700", "900"],
   display: "swap",
 });
